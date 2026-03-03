@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BARRACRED conecta 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="hero">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <div class="brand">
+                <h1 class="brand-title">BarraCred</h1>
+                <div class="brand-subtitle">
+                    <span>CONECTA</span>
+                    <span class="tag-symbol">/&gt;</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="events-wrapper">
+        <div class="controls-container">
+            <div class="countdown-box" id="countdownBox">
+                Próxima aula em: <span id="countdownTimer">--:--:--</span>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar palestra ou professor...">
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress" id="progressBar"></div>
+        </div>
+
+        <div class="filter" id="filter"></div>
+
+        <div class="events-container-relative">
+            <div class="events" id="events"></div>
+            <div class="floating-sticker">Aula a cada 15 dias</div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div>
+            <h4>Frequência</h4>
+            <p>Aulas realizadas a cada 15 dias</p>
+        </div>
+        <div>
+            <h4>Horário</h4>
+            <p>Início às 13:30</p>
+        </div>
+        <div>
+            <h4>Total de Encontros</h4>
+            <p>13 aulas programadas</p>
+        </div>
+        <div>
+            <h4>Status do Programa</h4>
+            <p>Em andamento • 2026</p>
+        </div>
+    </footer>
+
+    <div class="modal" id="modal">
+        <div class="modal-box">
+            <span class="close" id="closeModal">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <div class="status-badge" id="modalStatusBadge"></div>
+            </div>
+            <p class="modal-date"><i class="far fa-calendar-alt"></i> <span id="modalDate"></span></p>
+            <p class="modal-subtitle" id="modalSubtitle"></p>
+            <div class="modal-divider"></div>
+            <h4>Palestrantes / Facilitadores:</h4>
+            <div class="tags" id="modalPeople"></div>
+            <p class="modal-hour"><i class="far fa-clock"></i> Horário: 13:30</p>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

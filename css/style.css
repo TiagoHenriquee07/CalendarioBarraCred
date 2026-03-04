@@ -18,7 +18,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('../assets/turma.jpg') center/cover no-repeat; /* Ajuste o caminho da sua imagem */
+    background: url('../assets/turma.jpg') center/cover no-repeat;
     background-color: #00843d; /* Fallback */
 }
 
@@ -317,6 +317,18 @@ body {
 .footer p {
     opacity: 0.8;
     font-size: 14px;
+}
+
+
+.developer-credits a {
+    color: #a4d233; 
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.developer-credits a:hover {
+    color: #ffffff; 
 }
 
 /* modaL */

@@ -73,7 +73,7 @@ function renderCards(filterText = "") {
             </div>
             <h3>${event.title}</h3>
             <p>${event.subtitle}</p>
-            ${status === "next" ? '<div class="badge">PRÓXIMA PALESTRA</div>' : ''}
+            ${status === "next" ? '<div class="badge">PRÓXIMA AULA</div>' : ''}
         `;
 
         card.onclick = () => openModal(event, eventDate, status);

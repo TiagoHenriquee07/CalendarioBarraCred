@@ -25,7 +25,7 @@ const searchInput = document.getElementById("searchInput");
 let nextFound = false;
 let nextEventDateForTimer = null;
 
-// Função para formatar a data igual à imagem: "05/03 - quinta-feira"
+// Função para formatar a data igual à imagem: "05/03 - quinta-feira nessse negocio"
 function formatCustomDate(date) {
     const dia = String(date.getDate()).padStart(2, '0');
     const mes = String(date.getMonth() + 1).padStart(2, '0');
@@ -55,7 +55,7 @@ function renderCards(filterText = "") {
             status = "future";
         }
 
-        // Sistema de busca (Filtro)
+        // fazer buscas
         const searchText = filterText.toLowerCase();
         const eventContent = `${event.title} ${event.subtitle} ${event.people.join(" ")}`.toLowerCase();
         
@@ -89,7 +89,7 @@ const categories = ["Todas", "Passadas", "Futuras", "Próxima"];
 categories.forEach((type, index) => {
     const btn = document.createElement("button");
     btn.innerText = type;
-    if(index === 0) btn.classList.add("active"); // "Todas" ativo por padrão
+    if(index === 0) btn.classList.add("active"); 
 
     btn.onclick = () => {
         // Controle de classe ativa
@@ -112,7 +112,6 @@ categories.forEach((type, index) => {
 
 // Evento de Busca
 searchInput.addEventListener("input", (e) => {
-    // Remove classe ativa dos botões ao buscar
     document.querySelectorAll(".filter button").forEach(b => b.classList.remove("active"));
     renderCards(e.target.value);
 });
@@ -153,11 +152,11 @@ window.onclick = (e) => {
         document.getElementById("modal").style.display = "none";
 };
 
-// Sistema de Contagem Regressiva (Countdown)
+// Contagem Regressiva
 function updateCountdown() {
     if (!nextEventDateForTimer) return;
 
-    const now = new Date(); // Pode usar referenceDate se quiser simular
+    const now = new Date(); 
     const diff = nextEventDateForTimer - now;
 
     if (diff <= 0) {
@@ -174,5 +173,5 @@ function updateCountdown() {
 
 // Renderização inicial
 renderCards();
-setInterval(updateCountdown, 60000); // Atualiza o timer a cada minuto
+setInterval(updateCountdown, 60000); // Atualiza o timer a cada minuto, essa merda nao esta funcionando 
 updateCountdown();

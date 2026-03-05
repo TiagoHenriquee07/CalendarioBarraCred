@@ -14,18 +14,66 @@ body {
 /* hero */
 .hero {
     position: relative;
-    height: 300px;
+    height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('../assets/turma.jpg') center/cover no-repeat;
-    background-color: #00843d; /* Fallback */
+    background-color: #00843d; 
+    overflow: hidden;
+}
+
+.carousel-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.carousel-slide.active {
+    opacity: 1;
 }
 
 .overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(0, 92, 45, 0.9) 0%, rgba(0, 166, 81, 0.8) 100%);
+    background: transparent;
+    z-index: 1;
+}
+
+.carousel-controls {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.carousel-dot.active {
+    background: #a4d233;
+    width: 24px;
+    border-radius: 4px;
 }
 
 .hero-content {
@@ -42,20 +90,22 @@ body {
 }
 
 .brand-title {
-    font-size: 65px; 
-    font-weight: 100;
-    letter-spacing: 2px;
+    font-size: 50px; 
+    font-weight: 90;
+    letter-spacing: 9px;
     color: #ffffff;
     line-height: 1;
-    margin-bottom: -5px;
+    border-radius: 100%;
+    margin-bottom: -5px;    
 }
 
 .brand-subtitle {
     display: flex;
     align-items: center;
-    font-size: 40px; 
+    font-size: 45px; 
     font-weight: 400;
-    letter-spacing: 4px;
+    letter-spacing: 10px;
+    border-radius: 90%;
     color: #ffffff;
 }
 
@@ -64,7 +114,7 @@ body {
     font-weight: 800;
     font-family: 'Courier New', Courier, monospace; 
     margin-left: 10px;
-    font-size: 42px;
+    font-size: 62px;
 }
 
 .triangle {
@@ -187,19 +237,19 @@ body {
 
 /* Scrollbar */
 .events::-webkit-scrollbar {
-    height: 8px;
+    height: 12px;
 }
 .events::-webkit-scrollbar-track {
-    background: #252830;
-    border-radius: 4px;
+    background: #1a1d23;
+    border-radius: 6px;
     margin: 0 40px;
 }
 .events::-webkit-scrollbar-thumb {
-    background: #555;
-    border-radius: 4px;
+    background: #a4d233;
+    border-radius: 6px;
 }
 .events::-webkit-scrollbar-thumb:hover {
-    background: #a4d233;
+    background: #c5e856;
 }
 
 .card {

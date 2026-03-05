@@ -1,3 +1,47 @@
+const carouselImages = [
+    'assets/aulas.jpg',
+    'assets/aulas2.jpg',
+    'assets/aulas3.JPG',
+    'assets/aulas4.jpg'
+
+];
+
+let currentSlide = 0;
+const carouselContainer = document.getElementById('carouselContainer');
+const carouselControls = document.getElementById('carouselControls');
+
+// Criar slides
+carouselImages.forEach((img, index) => {
+    const slide = document.createElement('div');
+    slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
+    slide.style.backgroundImage = `url('${img}')`;
+    carouselContainer.appendChild(slide);
+
+    // Criar dots
+    const dot = document.createElement('div');
+    dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+    dot.onclick = () => goToSlide(index);
+    carouselControls.appendChild(dot);
+});
+
+function goToSlide(index) {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+    currentSlide = index;
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % carouselImages.length;
+    goToSlide(currentSlide);
+}
+/* Avança o slide a cada 4 segundos */
+setInterval(nextSlide, 2000);
 
 const referenceDate = new Date("2026-03-03T00:00:00"); 
 
@@ -84,7 +128,7 @@ function renderCards(filterText = "") {
     progressBar.style.width = (pastCount / events.length * 100) + "%";
 }
 
-// Inicializa os botões de Filtro Rápido
+
 const categories = ["Todas", "Passadas", "Futuras", "Próxima"];
 categories.forEach((type, index) => {
     const btn = document.createElement("button");
@@ -95,10 +139,7 @@ categories.forEach((type, index) => {
         // Controle de classe ativa
         document.querySelectorAll(".filter button").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-
-        // Limpa a busca ao clicar nos filtros
         searchInput.value = "";
-
         // Mostra/esconde baseado no status
         document.querySelectorAll(".card").forEach(c => {
             if (type === "Todas") c.style.display = "flex";
@@ -110,13 +151,13 @@ categories.forEach((type, index) => {
     filterContainer.appendChild(btn);
 });
 
-// Evento de Busca
+// bucar
 searchInput.addEventListener("input", (e) => {
     document.querySelectorAll(".filter button").forEach(b => b.classList.remove("active"));
     renderCards(e.target.value);
 });
 
-// Lógica do Modal Profissional
+// Modal
 function openModal(event, date, status) {
     document.getElementById("modalTitle").innerText = event.title;
     document.getElementById("modalDate").innerText = formatCustomDate(date);
@@ -171,7 +212,7 @@ function updateCountdown() {
     document.getElementById("countdownTimer").innerText = `${days}d ${hours}h ${mins}m`;
 }
 
-// Renderização inicial
+
 renderCards();
-setInterval(updateCountdown, 60000); // Atualiza o timer a cada minuto, essa merda nao esta funcionando 
+setInterval(updateCountdown, 60000); 
 updateCountdown();

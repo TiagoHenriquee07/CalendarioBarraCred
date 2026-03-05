@@ -68,6 +68,7 @@ const searchInput = document.getElementById("searchInput");
 
 let nextFound = false;
 let nextEventDateForTimer = null;
+let lastCheckedDate = null;
 
 // Função para formatar a data igual à imagem: "05/03 - quinta-feira nessse negocio"
 function formatCustomDate(date) {
@@ -79,18 +80,48 @@ function formatCustomDate(date) {
     return `${dia}/${mes} - ${diaSemana}`;
 }
 
+// Função para determinar o status do evento
+function getEventStatus(eventDate) {
+    const now = new Date();
+    
+    // Verifica se é hoje (mesma data, independente da hora)
+    const eventDay = new Date(eventDate);
+    eventDay.setHours(0, 0, 0, 0);
+    
+    const today = new Date(now);
+    today.setHours(0, 0, 0, 0);
+    
+    if (eventDay.getTime() === today.getTime()) {
+        return "today";
+    } else if (eventDate < referenceDate) {
+        return "past";
+    } else if (eventDate > now) {
+        return "future";
+    }
+    
+    return "past";
+}
+
 function renderCards(filterText = "") {
     container.innerHTML = "";
     nextFound = false;
     let pastCount = 0;
+    let todayCardElement = null;
 
     events.forEach(event => {
         const eventDate = new Date(event.date);
         let status;
+        const eventStatus = getEventStatus(eventDate);
 
-        if (eventDate < referenceDate) {
+        if (eventStatus === "past") {
             status = "past";
             pastCount++;
+        } else if (eventStatus === "today") {
+            status = "today";
+            if (!nextFound) {
+                nextFound = true;
+                nextEventDateForTimer = eventDate;
+            }
         } else if (!nextFound) {
             status = "next";
             nextFound = true;
@@ -104,12 +135,20 @@ function renderCards(filterText = "") {
         const eventContent = `${event.title} ${event.subtitle} ${event.people.join(" ")}`.toLowerCase();
         
         if (filterText && !eventContent.includes(searchText)) {
-            return; // Pula se não bater com a busca
+            return; // Pula se nao bater com a busca
         }
 
         const card = document.createElement("div");
         card.className = `card ${status}`;
         card.dataset.status = status;
+
+        let badgeText = '';
+        if (status === "next") {
+            badgeText = '<div class="badge">PROXIMA AULA</div>';
+        } else if (status === "today") {
+            badgeText = '<div class="badge">AULA DE HOJE</div>';
+            todayCardElement = card;
+        }
 
         card.innerHTML = `
             <div class="card-date">
@@ -117,7 +156,7 @@ function renderCards(filterText = "") {
             </div>
             <h3>${event.title}</h3>
             <p>${event.subtitle}</p>
-            ${status === "next" ? '<div class="badge">PRÓXIMA AULA</div>' : ''}
+            ${badgeText}
         `;
 
         card.onclick = () => openModal(event, eventDate, status);
@@ -126,6 +165,15 @@ function renderCards(filterText = "") {
 
     // Atualiza Barra de Progresso
     progressBar.style.width = (pastCount / events.length * 100) + "%";
+    
+    // Scroll automatico para mostrar a aula de hoje em primeiro com espaço
+    if (todayCardElement) {
+        setTimeout(() => {
+            const cardWidth = todayCardElement.offsetWidth;
+            const scrollPosition = todayCardElement.offsetLeft - 40; // 40px de espaço
+            container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+        }, 100);
+    }
 }
 
 
@@ -136,16 +184,13 @@ categories.forEach((type, index) => {
     if(index === 0) btn.classList.add("active"); 
 
     btn.onclick = () => {
-        // Controle de classe ativa
-        document.querySelectorAll(".filter button").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
         searchInput.value = "";
         // Mostra/esconde baseado no status
         document.querySelectorAll(".card").forEach(c => {
             if (type === "Todas") c.style.display = "flex";
             else if (type === "Passadas") c.style.display = c.dataset.status === "past" ? "flex" : "none";
-            else if (type === "Futuras") c.style.display = c.dataset.status === "future" ? "flex" : "none";
-            else if (type === "Próxima") c.style.display = c.dataset.status === "next" ? "flex" : "none";
+            else if (type === "Futuras") c.style.display = (c.dataset.status === "future" || c.dataset.status === "today") ? "flex" : "none";
+            else if (type === "Proxima") c.style.display = (c.dataset.status === "next" || c.dataset.status === "today") ? "flex" : "none";
         });
     };
     filterContainer.appendChild(btn);
@@ -166,6 +211,8 @@ function openModal(event, date, status) {
     const statusBadge = document.getElementById("modalStatusBadge");
     if(status === 'past') {
         statusBadge.innerHTML = '<span style="background: #555; padding: 4px 10px; border-radius: 4px; font-size: 12px;">Concluída</span>';
+    } else if(status === 'today') {
+        statusBadge.innerHTML = '<span style="background: #a4d233; color: black; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold;">Aula de Hoje</span>';
     } else if(status === 'next') {
         statusBadge.innerHTML = '<span style="background: #a4d233; color: black; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold;">Próxima</span>';
     } else {
@@ -202,6 +249,15 @@ function updateCountdown() {
 
     if (diff <= 0) {
         document.getElementById("countdownTimer").innerText = "Acontecendo hoje!";
+        
+        // Verifica se mudou de dia e re-renderiza os cards
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (!lastCheckedDate || lastCheckedDate.getTime() !== today.getTime()) {
+            lastCheckedDate = today;
+            renderCards();
+        }
         return;
     }
 

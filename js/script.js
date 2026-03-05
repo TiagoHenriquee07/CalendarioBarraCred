@@ -2,7 +2,7 @@ const carouselImages = [
     'assets/aulas.jpg',
     'assets/aulas2.jpg',
     'assets/aulas3.JPG',
-    'assets/aulas4.jpg'
+    'assets/aulas4.JPG'
 
 ];
 
